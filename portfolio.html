@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Estratégica de Marketing Digital - Reserva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Harmony -->
+    <!-- Application Structure Plan: A single-page interactive dashboard with top navigation for quick scrolling. The structure includes: 1. Overview (Objectives, Audience), 2. Interactive Funnel Strategy, 3. Interactive Budget & Channel Breakdown with a donut chart and clickable cards, 4. Interactive Timeline, 5. Management approach. This dashboard structure was chosen to transform a static text proposal into an exploratory tool, allowing stakeholders to easily grasp the key components and drill down into details like channel-specific KPIs without being overwhelmed. -->
+    <!-- Visualization & Content Choices: 
+    - Objectives/Audience: Static cards (HTML/CSS) -> Goal: Inform -> Simple, clear presentation.
+    - Funnel: Interactive diagram (HTML/CSS/JS) -> Goal: Organize -> Visually connects strategy stages to channels.
+    - Budget Allocation: Donut Chart (Chart.js) + Interactive Cards (JS) -> Goal: Compare & Explore -> Provides a high-level summary and allows deep dives into channel specifics.
+    - Timeline: Interactive diagram (HTML/CSS/JS) -> Goal: Organize -> Makes the 6-month plan easy to follow phase by phase.
+    - Management: Accordion/Tabs (HTML/CSS/JS) -> Goal: Organize -> Neatly presents the leadership and communication plan.
+    - NO SVG/Mermaid used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF5;
+            color: #3D3D3D;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: auto;
+            max-height: 450px;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #C06C4A;
+            border-bottom-color: #C06C4A;
+        }
+        .funnel-stage {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .funnel-stage:hover, .funnel-stage.active {
+            background-color: #C06C4A;
+            color: white;
+            transform: scale(1.05);
+        }
+        .channel-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .channel-card:hover, .channel-card.active {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #C06C4A;
+        }
+        .timeline-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .timeline-item.active {
+            background-color: #EAE3D9;
+        }
+        .kpi-badge {
+            background-color: #EAE3D9;
+            color: #C06C4A;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-gray-800">Proposta Estratégica: <span class="text-[#C06C4A]">Reserva</span></h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#planejamento" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">Planejamento</a>
+                <a href="#orcamento" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">Orçamento</a>
+                <a href="#execucao" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">Execução</a>
+                <a href="#gestao" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">Gestão</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="planejamento" class="mb-24 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-center mb-4">Planejamento Estratégico</h2>
+            <p class="text-center text-lg text-gray-600 max-w-3xl mx-auto mb-12">Uma visão integrada para alavancar a presença online da marca, focando em crescimento, aquisição e fidelização de clientes.</p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#C06C4A]">
+                    <h3 class="font-bold text-xl mb-2">Construção de Marca</h3>
+                    <p class="text-gray-600">Aumentar a visibilidade e o reconhecimento da Reserva junto a novos segmentos de público.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#D98B48]">
+                    <h3 class="font-bold text-xl mb-2">Aquisição de Clientes</h3>
+                    <p class="text-gray-600">Gerar tráfego qualificado para o e-commerce e converter visitantes em novos clientes.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#E5A86D]">
+                    <h3 class="font-bold text-xl mb-2">Impulsionar Vendas</h3>
+                    <p class="text-gray-600">Maximizar o ROAS para garantir um crescimento lucrativo e sustentável das vendas online.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#F2C594]">
+                    <h3 class="font-bold text-xl mb-2">Fidelização e Retenção</h3>
+                    <p class="text-gray-600">Fortalecer o relacionamento com o cliente e aprimorar a experiência de compra.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-8 mb-16 flex flex-col md:flex-row items-center gap-8">
+                <div class="text-center md:text-left">
+                    <h3 class="text-2xl font-bold mb-4">Nosso Público-Alvo</h3>
+                    <p class="text-gray-600 mb-4 max-w-2xl">Profissionais de 25 a 45 anos, com renda média-alta, residentes em grandes centros urbanos. São digitalmente ativos, preferem marcas premium e tomam decisões de compra baseadas em qualidade, valor e experiência.</p>
+                    <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">🛍️ Compradores Online</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">🏙️ Urbanos</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">💎 Qualidade Premium</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">🧠 Decisões Emocionais</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="text-2xl font-bold text-center mb-8">Estratégia Multicanal: O Funil de Marketing</h3>
+                <div class="max-w-4xl mx-auto">
+                    <div id="funnel-topo" class="funnel-stage bg-white p-6 rounded-lg shadow-md mb-4 text-center border-l-4 border-[#C06C4A]">
+                        <h4 class="font-bold text-lg">Topo de Funil: Awareness & Consideração</h4>
+                        <p class="text-gray-600 mt-2">Atrair novos públicos com conteúdo que desperta o interesse pela marca.</p>
+                        <div class="funnel-details hidden mt-4 text-left">
+                            <p><strong>Canais:</strong> Google Display Ads, YouTube Ads.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center text-3xl text-gray-400">▼</div>
+                     <div id="funnel-meio" class="funnel-stage bg-white p-6 rounded-lg shadow-md my-4 text-center border-l-4 border-[#D98B48]">
+                        <h4 class="font-bold text-lg">Meio de Funil: Consideração & Conversão</h4>
+                        <p class="text-gray-600 mt-2">Capturar a intenção de compra e converter usuários em clientes.</p>
+                        <div class="funnel-details hidden mt-4 text-left">
+                            <p><strong>Canais:</strong> Google Search Ads, Facebook/Instagram Conversion Ads.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center text-3xl text-gray-400">▼</div>
+                    <div id="funnel-fundo" class="funnel-stage bg-white p-6 rounded-lg shadow-md mt-4 text-center border-l-4 border-[#E5A86D]">
+                        <h4 class="font-bold text-lg">Fundo de Funil: Conversão & Retenção</h4>
+                        <p class="text-gray-600 mt-2">Reengajar, fidelizar e transformar clientes em fãs da marca.</p>
+                        <div class="funnel-details hidden mt-4 text-left">
+                            <p><strong>Canais:</strong> Facebook/Instagram Remarketing.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="orcamento" class="mb-24 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-center mb-4">Execução e Orçamentação</h2>
+            <p class="text-center text-lg text-gray-600 max-w-3xl mx-auto mb-12">Um plano de 6 meses com orçamento de $1,000,000, alocado de forma inteligente e dinâmica para maximizar o retorno sobre o investimento.</p>
+
+            <div class="flex flex-col lg:flex-row gap-12 items-center">
+                <div class="w-full lg:w-1/2">
+                    <div class="chart-container">
+                        <canvas id="budgetChart"></canvas>
+                    </div>
+                     <p class="text-center text-sm text-gray-500 mt-4">Alocação orçamentária inicial. O investimento será realocado dinamicamente com base na performance.</p>
+                </div>
+                <div class="w-full lg:w-1/2">
+                    <div id="channel-details" class="bg-white p-8 rounded-lg shadow-lg min-h-[300px]">
+                    </div>
+                </div>
+            </div>
+             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-8">
+            </div>
+        </section>
+
+        <section id="execucao" class="mb-24 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-center mb-12">Cronograma de Execução</h2>
+            <div class="relative max-w-5xl mx-auto">
+                <div class="border-l-2 border-gray-200 absolute h-full top-0 left-4"></div>
+                <div id="timeline-container" class="space-y-12">
+                </div>
+            </div>
+        </section>
+        
+        <section id="gestao" class="scroll-mt-24">
+            <h2 class="text-3xl font-bold text-center mb-12">Gestão de Equipe e Stakeholders</h2>
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="text-4xl mb-4">🤝</div>
+                    <h3 class="font-bold text-xl mb-2">Liderança Inspiradora</h3>
+                    <p class="text-gray-600">Uma gestão baseada na confiança, autonomia e responsabilidade. Fomento uma cultura de aprendizado contínuo, onde o time é incentivado a inovar e aprender com os dados.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                     <div class="text-4xl mb-4">💬</div>
+                    <h3 class="font-bold text-xl mb-2">Comunicação Estratégica</h3>
+                    <p class="text-gray-600">Comunicação clara e alinhada através de ferramentas de gestão e reuniões semanais focadas em performance, garantindo sinergia entre todos os departamentos.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                     <div class="text-4xl mb-4">📊</div>
+                    <h3 class="font-bold text-xl mb-2">Resultados e Insights</h3>
+                    <p class="text-gray-600">Relatórios mensais estruturados, focados não apenas em métricas, mas em insights acionáveis que traduzem dados em crescimento tangível para o negócio.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-white mt-24 border-t">
+        <div class="container mx-auto px-6 py-6 text-center text-gray-500">
+            <p>&copy; 2025 Proposta Estratégica Digital. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const data = {
+                channels: [
+                    { id: 'search', name: 'Google Search Ads', budget: 250000, allocation: 25, kpis: 'CPA < $25, CTR > 3.5%, ROAS ≥ 3.5:1' },
+                    { id: 'display', name: 'Google Display Ads', budget: 150000, allocation: 15, kpis: 'CPC < $2.5, CTR > 3.5%' },
+                    { id: 'youtube', name: 'YouTube Ads', budget: 150000, allocation: 15, kpis: 'VTR > 25%' },
+                    { id: 'fb-conversion', name: 'Facebook/Instagram Conversion Ads', budget: 250000, allocation: 25, kpis: 'CPA < $25, ROAS ≥ 3.5:1' },
+                    { id: 'fb-remarketing', name: 'Facebook Remarketing', budget: 100000, allocation: 10, kpis: 'ROAS ≥ 5:1, CTR > 5%' },
+                    { id: 'ab-testing', name: 'A/B Testing & Otimização', budget: 100000, allocation: 10, kpis: 'Taxa de Conversão > 4%' }
+                ],
+                timeline: [
+                    { phase: "Meses 1-2", title: "Início e Teste", description: "Lançamento de campanhas-piloto, realização de testes A/B em criativos e públicos, e coleta intensiva de dados iniciais para validação de hipóteses." },
+                    { phase: "Meses 3-4", title: "Otimização e Escala", description: "Reajuste dinâmico de orçamento, otimização das campanhas com melhor performance e escalonamento dos canais mais eficientes para ampliar o alcance." },
+                    { phase: "Meses 5-6", title: "Sustentação e Análise", description: "Foco total na maximização do ROAS e em ações de fidelização para fortalecer a base de clientes. Preparação do relatório final com aprendizados para o próximo ciclo." }
+                ]
+            };
+            
+            const channelDetailsContainer = document.getElementById('channel-details');
+            const channelsGrid = document.querySelector('#orcamento .grid');
+
+            function updateChannelDetails(channelId) {
+                const channel = data.channels.find(c => c.id === channelId);
+                if (!channel) return;
+
+                channelDetailsContainer.innerHTML = `
+                    <h3 class="text-2xl font-bold mb-4">${channel.name}</h3>
+                    <p class="text-lg text-gray-700 mb-2"><strong>Orçamento:</strong> $${channel.budget.toLocaleString('pt-BR')}</p>
+                    <p class="text-lg text-gray-700 mb-6"><strong>Alocação:</strong> ${channel.allocation}% do total</p>
+                    <h4 class="font-bold text-xl mb-3">KPIs Mensuráveis</h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${channel.kpis.split(',').map(kpi => `<span class="kpi-badge px-3 py-1 rounded-full text-sm font-medium">${kpi.trim()}</span>`).join('')}
+                    </div>
+                `;
+                
+                document.querySelectorAll('.channel-card').forEach(card => {
+                    card.classList.remove('active', 'border-[#C06C4A]');
+                    if (card.dataset.channelId === channelId) {
+                        card.classList.add('active', 'border-[#C06C4A]');
+                    }
+                });
+            }
+
+            data.channels.forEach(channel => {
+                const card = document.createElement('div');
+                card.className = 'channel-card bg-white p-4 rounded-lg shadow-md text-center border-2 border-transparent';
+                card.dataset.channelId = channel.id;
+                card.innerHTML = `<h5 class="font-bold text-sm">${channel.name}</h5>`;
+                channelsGrid.appendChild(card);
+                card.addEventListener('click', () => updateChannelDetails(channel.id));
+            });
+            
+            updateChannelDetails('search');
+
+            const ctx = document.getElementById('budgetChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.channels.map(c => c.name),
+                    datasets: [{
+                        label: 'Alocação de Orçamento',
+                        data: data.channels.map(c => c.allocation),
+                        backgroundColor: ['#C06C4A', '#D98B48', '#E5A86D', '#F2C594', '#EAE3D9', '#D1C7BA'],
+                        borderColor: '#FDFBF5',
+                        borderWidth: 4,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+
+            document.querySelectorAll('.funnel-stage').forEach(stage => {
+                stage.addEventListener('click', () => {
+                    const details = stage.querySelector('.funnel-details');
+                    const isActive = stage.classList.contains('active');
+                    
+                    document.querySelectorAll('.funnel-stage').forEach(s => {
+                        s.classList.remove('active');
+                        s.querySelector('.funnel-details').classList.add('hidden');
+                    });
+                    
+                    if (!isActive) {
+                        stage.classList.add('active');
+                        details.classList.remove('hidden');
+                    }
+                });
+            });
+
+            const timelineContainer = document.getElementById('timeline-container');
+            data.timeline.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'timeline-item relative pl-10 pb-8';
+                div.innerHTML = `
+                    <div class="absolute w-6 h-6 bg-white border-2 border-[#C06C4A] rounded-full mt-1.5 -left-3"></div>
+                    <div class="p-6 rounded-lg bg-white shadow-md">
+                        <p class="text-sm font-medium text-[#C06C4A]">${item.phase}</p>
+                        <h4 class="font-bold text-xl mt-1 mb-2">${item.title}</h4>
+                        <p class="text-gray-600">${item.description}</p>
+                    </div>
+                `;
+                timelineContainer.appendChild(div);
+                
+                div.addEventListener('click', () => {
+                    document.querySelectorAll('.timeline-item').forEach(el => el.classList.remove('active'));
+                    div.classList.add('active');
+                });
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+            
+             navLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
